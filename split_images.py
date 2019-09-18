@@ -87,7 +87,7 @@ for label in data_dict.keys():
     # Get Split Indices
     test_indices = indices[0: test_size + 1]
     val_indices = indices[test_size + 1: test_size + val_size + 2]
-    training_indices = indices[test_size + test_size + 2:]
+    training_indices = indices[test_size + val_size + 2:]
     # Split data
     train_data = np.take(data, training_indices)
     val_data = np.take(data, val_indices)
