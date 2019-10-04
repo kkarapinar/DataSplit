@@ -20,7 +20,7 @@ optional = parser.add_argument_group('optional arguments')
 required.add_argument('-s', '--source', type=str, required=True,
                       help='source directory')
 required.add_argument('-d', '--destination', type=str, required=True,
-                      help='source directory')
+                      help='destination directory')
 optional.add_argument('-v', '--val_perc', type=int, required=True,
                       help='val data percentage, s.t. 10, 15, 20 ...')
 optional.add_argument('-t', '--test_perc', type=int, default=0,
