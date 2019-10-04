@@ -31,15 +31,19 @@ class PascalVocAnnParser(BaseAnnParser):
 
             # Can be more than one label in photo
             labels = {}
-            for elem in root.iter("name"):
+            for elem in root.iter('name'):
                 label = elem.text
                 labels[label] = None
+            try:
+                random_label = np.random.choice(list(labels.keys()))
+            except ValueError:
+                random_label = 'no-label'
 
-            random_label = np.random.choice(list(labels.keys()))
             if random_label not in self._data_dict.keys():
                 self._data_dict[random_label] = [filename]
             else:
                 self._data_dict[random_label].append(filename)
+
         return self._data_dict
 
 
