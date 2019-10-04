@@ -12,6 +12,7 @@ import argparse
 import math
 import numpy as np
 import parsers as p
+import utils as u
 
 parser = argparse.ArgumentParser(description='Split dataset into training, validation and test set')
 parser._action_groups.pop()
@@ -45,21 +46,13 @@ validation_ann_directory = os.path.join(destination, 'validation', 'annotations/
 test_img_directory = os.path.join(destination, 'test', 'images/')
 test_ann_directory = os.path.join(destination, 'test', 'annotations/')
 
-
-# Remove folder with files inside and create empty one again
-def re_create_folder(path):
-    if os.path.isdir(path):
-        shutil.rmtree(path)
-    os.makedirs(path)
-
-
 # Recreate folders
-re_create_folder(train_img_directory)
-re_create_folder(train_ann_directory)
-re_create_folder(validation_img_directory)
-re_create_folder(validation_ann_directory)
-re_create_folder(test_img_directory)
-re_create_folder(test_ann_directory)
+u.re_create_folder(train_img_directory)
+u.re_create_folder(train_ann_directory)
+u.re_create_folder(validation_img_directory)
+u.re_create_folder(validation_ann_directory)
+u.re_create_folder(test_img_directory)
+u.re_create_folder(test_ann_directory)
 
 
 # Copy images and annotations to main image and annotation folder
