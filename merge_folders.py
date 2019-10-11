@@ -11,10 +11,11 @@ import shutil
 import argparse
 import utils as u
 import sys
+import parsers as p
 
 """
-python3 merge_folders.py -s /Users/kubilaykarapinar/desktop/nonphoneaug/train /Users/kubilaykarapinar/desktop/phoneaug/train \
--d /Users/kubilaykarapinar/desktop/lastds/train
+    python3 merge_folders.py -s /Users/kubilaykarapinar/desktop/nonphoneaug/train /Users/kubilaykarapinar/desktop/phoneaug/train \
+    -d /Users/kubilaykarapinar/desktop/lastds/train
 
 
 """
@@ -45,22 +46,31 @@ dest_ann_directory = os.path.join(destination, 'annotations/')
 u.re_create_folder(dest_img_directory)
 u.re_create_folder(dest_ann_directory)
 
+parser = p.PascalVocAnnParser()
+
 
 def copy_2_destination(source):
     global counter
     img_directory = os.path.join(source, 'images/')
     ann_directory = os.path.join(source, 'annotations/')
 
+
     for filename in u.insensitive_glob(img_directory + '*.jpg'):
         img_name = os.path.split(filename.split('.')[0])[-1]
         new_img_name = img_name.split('_')[0]
+
         shutil.copy2(os.path.join(img_directory, img_name + '.jpg'),
                      os.path.join(dest_img_directory, new_img_name + '_' + str(counter) + '.jpg'))
 
+        xml_target = os.path.join(dest_ann_directory, new_img_name + '_' + str(counter) + '.xml')
         shutil.copy2(os.path.join(ann_directory, img_name + '.xml'),
-                     os.path.join(dest_ann_directory, new_img_name + '_' + str(counter) + '.xml'))
+                     xml_target)
+
+        parser.fix_image_name_in_ann(xml_target, new_img_name + '_' + str(counter) + '.jpg')
+
         print(counter)
         counter += 1
+
 
 
 for s in source_list:

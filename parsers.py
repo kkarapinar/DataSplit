@@ -20,8 +20,19 @@ class BaseAnnParser(ABC):
     def get_data_dict(self, ann_directory):
         pass
 
+    @abstractmethod
+    def fix_image_name_in_ann(self, xml, image_name):
+        pass
+
 
 class PascalVocAnnParser(BaseAnnParser):
+    def fix_image_name_in_ann(self, xml, image_name):
+        tree = et.parse(xml)
+        root = tree.getroot()
+        root.find('filename').text = image_name
+
+        tree.write(xml)
+
     def get_data_dict(self, ann_directory):
         for ann in glob.glob(ann_directory + '*.xml'):
             with open(ann, 'r') as file:
@@ -48,5 +59,8 @@ class PascalVocAnnParser(BaseAnnParser):
 
 
 class YOLOAnnParser(BaseAnnParser):
+    def fix_image_name_in_ann(self, xml, image_name):
+        pass
+
     def get_data_dict(self, ann_directory):
         pass
