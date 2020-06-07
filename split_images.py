@@ -22,7 +22,7 @@ required.add_argument('-s', '--source', type=str, required=True,
                       help='source directory')
 required.add_argument('-d', '--destination', type=str, required=True,
                       help='destination directory')
-optional.add_argument('-v', '--val_perc', type=int, required=True,
+required.add_argument('-v', '--val_perc', type=int, required=True,
                       help='val data percentage, s.t. 10, 15, 20 ...')
 optional.add_argument('-t', '--test_perc', type=int, default=0,
                       help='test data percentage, s.t. 10, 15, 20 ...')
@@ -66,21 +66,20 @@ def copy_list(data_list, img_from, ann_from, img_to, ann_to):
 
 parser = p.PascalVocAnnParser()
 data_dict = parser.get_data_dict(ann_directory)
-
 for label in data_dict.keys():
     data = data_dict[label]
     # Calculate size of splits
     data_size = len(data)
     val_size = math.ceil(val_perc * data_size / 100)
     test_size = math.ceil(test_perc * data_size / 100)
-
     # Create list of indices
     indices = np.arange(data_size)
     np.random.shuffle(indices)
     # Get Split Indices
-    test_indices = indices[0: test_size + 1]
-    val_indices = indices[test_size + 1: test_size + val_size + 2]
-    training_indices = indices[test_size + val_size + 2:]
+    test_indices = indices[0: test_size]
+    val_indices = indices[test_size + 1: test_size + val_size]
+    training_indices = indices[test_size + val_size:]
+
     # Split data
     train_data = np.take(data, training_indices)
     val_data = np.take(data, val_indices)

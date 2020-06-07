@@ -14,8 +14,8 @@ import sys
 import parsers as p
 
 """
-    python3 merge_folders.py -s /Users/kubilaykarapinar/desktop/nonphoneaug/train /Users/kubilaykarapinar/desktop/phoneaug/train \
-    -d /Users/kubilaykarapinar/desktop/lastds/train
+            python3 merge_folders.py -s /Users/kubi-x/downloads/phone_aug_dataset/validation /Users/kubi-x/desktop/otheraug/validation  \
+    -d /Users/kubi-x/desktop/phone_aug/validation
 
 
 """
@@ -32,7 +32,7 @@ args = parser.parse_args()
 source_list = args.source_list
 destination = args.destination
 
-if (os.path.exists(destination)):
+if os.path.exists(destination):
     user_input = input('\nThis directory will be removed with what is inside and will be recreated'
                        '\nTo continue type "Yes"'
                        '\nOtherwise program will abort: ')
@@ -72,6 +72,6 @@ def copy_2_destination(source):
         counter += 1
 
 
-
 for s in source_list:
+    print(s)
     copy_2_destination(s)
